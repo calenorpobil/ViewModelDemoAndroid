@@ -6,6 +6,7 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.lifecycle.Observer
 
 import com.merlita.viewmodeldemo.R
 import com.merlita.viewmodeldemo.databinding.FragmentMainBinding
@@ -46,13 +47,21 @@ class MainFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        binding.resultText.text = viewModel.getResult().toString()
+        //binding.resultText.text = viewModel.getResult().toString()
+
+        //Crea una instancia del nuevo Observer llamada resultObserver.
+        val resultObserver = Observer<Float> {
+                result -> binding.resultText.text = result.toString()
+        }
+
+
+        viewModel.getResult().observe(viewLifecycleOwner, resultObserver)
 
 
         binding.convertButton.setOnClickListener {
             if (binding.dollarText.text.isNotEmpty()) {
                 viewModel.setAmount(binding.dollarText.text.toString())
-                binding.resultText.text = viewModel.getResult().toString()
+                //binding.resultText.text = viewModel.getResult().toString()
             } else {
                 binding.resultText.text = "No Value"
             }
