@@ -7,22 +7,27 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.lifecycle.Observer
-
-import com.merlita.viewmodeldemo.R
-import com.merlita.viewmodeldemo.databinding.FragmentMainBinding
+import androidx.lifecycle.SavedStateViewModelFactory
+import androidx.lifecycle.ViewModelProvider
+import com.merlita.viewmodeldemo.databinding.*
 
 class MainFragment : Fragment() {
 
     companion object {
         fun newInstance() = MainFragment()
     }
+    private lateinit var viewModel: MainViewModel
 
-    private val viewModel: MainViewModel by viewModels()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+        activity?.application?.let {
 
-        // TODO: Use the ViewModel
+            val factory = SavedStateViewModelFactory(it, this)
+            viewModel = ViewModelProvider(this, factory)
+                .get(MainViewModel::class.java)
+            // TODO: Use the ViewModel
+        }
     }
 
 
